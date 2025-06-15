@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Поиск статей Microinvest Wiki</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .search-container {
+            background-color: #f5f5f5;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 30px;
+        }
+        #search-input {
+            width: 70%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        #search-button {
+            padding: 10px 20px;
+            background-color: #2c3e50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        #search-button:hover {
+            background-color: #1a252f;
+        }
+        .results-container {
+            margin-top: 20px;
+        }
+        .result-item {
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .result-item a {
+            color: #2c3e50;
+            text-decoration: none;
+        }
+        .result-item a:hover {
+            text-decoration: underline;
+            color: #3498db;
+        }
+        .no-results {
+            color: #7f8c8d;
+            font-style: italic;
+        }
+        .loading {
+            color: #3498db;
+            font-style: italic;
+        }
+        .error {
+            color: #e74c3c;
+        }
+    </style>
+</head>
+<body>
+    <h1>Поиск статей Microinvest Wiki</h1>
+
+    <div class="search-container">
+        <input type="text" id="search-input" placeholder="Введите название статьи...">
+        <button id="search-button">Поиск</button>
+
+        <div class="results-container" id="results"></div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchButton = document.getElementById('search-button');
+            const resultsContainer = document.getElementById('results');
+            let allPages = [];
+
+            // Альтернативный URL для тестирования (можете заменить на реальный)
+            const wikiAllPagesUrl = 'https://wiki.microinvest.su/index.php?title=Служебная:AllPages';
+
+            // Функция для загрузки всех страниц
+            async function loadAllPages() {
+                resultsContainer.innerHTML = '<div class="loading">Загрузка списка статей...</div>';
+
+                try {
+                    // Вариант 1: Используем cors-anywhere демо-сервер (может быть ограничен)
+                    // const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+
+                    // Вариант 2: Пробуем прямой запрос (если CORS разрешен)
+                    const response = await fetch(wikiAllPagesUrl, {
+                        mode: 'cors',
+                        headers: {
+                            'Content-Type': 'text/html'
+                        }
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+
+                    const htmlText = await response.text();
+                    const parser = new DOMParser();
+                    const htmlDoc = parser.parseFromString(htmlText, 'text/html');
+
+                    // Парсим список страниц из HTML
+                    const pageLinks = htmlDoc.querySelectorAll('#mw-content-text .mw-allpages-body li a');
+                    allPages = Array.from(pageLinks).map(link => link.textContent);
+
+                    resultsContainer.innerHTML = '<div class="no-results">Введите поисковый запрос</div>';
+                } catch (error) {
+                    console.error('Ошибка при загрузке страниц:', error);
+
+                    // Запасной вариант с предопределенным списком страниц
+                    allPages = [
+                        "Фронтол и Штрих как фронт-офис",
+                        "Настройка ККТ Атол",
+                        "Интеграция с 1С:Предприятие",
+                        "Работа с фискальным накопителем",
+                        "Обновление прошивки ККТ",
+                        "Требования 54-ФЗ к кассовой технике"
+                    ];
+
+                    resultsContainer.innerHTML = `
+                        <div class="error">Ошибка при загрузке списка статей. Используется локальный список.</div>
+                        <div class="no-results">Введите поисковый запрос</div>
+                    `;
+                }
+            }
+
+            // Функция поиска страниц
+            function searchPages(query) {
+                resultsContainer.innerHTML = '';
+
+                if (!query.trim()) {
+                    resultsContainer.innerHTML = '<div class="no-results">Введите поисковый запрос</div>';
+                    return;
+                }
+
+                const lowerQuery = query.toLowerCase();
+                const foundPages = allPages.filter(page =>
+                    page.toLowerCase().includes(lowerQuery)
+                );
+
+                if (foundPages.length === 0) {
+                    resultsContainer.innerHTML = '<div class="no-results">Статьи по вашему запросу не найдены</div>';
+                    return;
+                }
+
+                foundPages.forEach(page => {
+                    const encodedTitle = encodeURIComponent(page);
+                    const resultItem = document.createElement('div');
+                    resultItem.className = 'result-item';
+                    resultItem.innerHTML = `
+                        <a href="https://wiki.microinvest.su/index.php?title=${encodedTitle}"
+                           title="${page}" target="_blank">
+                           ${page}
+                        </a>
+                    `;
+                    resultsContainer.appendChild(resultItem);
+                });
+            }
+
+            // Обработчики событий
+            searchButton.addEventListener('click', function() {
+                searchPages(searchInput.value);
+            });
+
+            searchInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    searchPages(searchInput.value);
+                }
+            });
+
+            // Загружаем список страниц при открытии
+            loadAllPages();
+        });
+    </script>
+</body>
+</html>

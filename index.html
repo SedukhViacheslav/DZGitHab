@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Центр поддержки контрольно-кассовой техники</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Общие стили */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 85%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* Шапка */
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .logo img {
+            height: 40px;
+            margin-right: 15px;
+        }
+
+        .logo span {
+            color: #3498db;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 20px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+            font-weight: 500;
+        }
+
+        nav ul li a:hover {
+            color: #3498db;
+        }
+
+        /* Герой-секция */
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)),
+                        url('https://64.media.tumblr.com/94f64041afd5fa0e88c9ebf976ca463c/df69929fdaacf0dc-1b/s2048x3072_c0,1508,100000,91457/1b30faf7bfd43106c9732154c9a1772f481dd3aa.png');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding: 150px 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .hero p {
+            font-size: 20px;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: #3498db;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+            border: 2px solid #3498db;
+            margin: 0 10px;
+        }
+
+        .btn:hover {
+            background-color: transparent;
+            color: #3498db;
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            border-color: white;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: white;
+            color: #2c3e50;
+        }
+
+        /* Услуги */
+        .services {
+            padding: 80px 0;
+            background-color: white;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-title h2 {
+            font-size: 36px;
+            color: #2c3e50;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 15px;
+        }
+
+        .section-title h2:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: #3498db;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .service-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            text-align: center;
+            border: 1px solid #eee;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+
+        .service-card i {
+            font-size: 50px;
+            color: #3498db;
+            margin-bottom: 20px;
+        }
+
+        .service-card h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 22px;
+        }
+
+        .service-card p {
+            color: #7f8c8d;
+            margin-bottom: 20px;
+        }
+
+        /* О нас */
+        .about {
+            background-color: #ecf0f1;
+            padding: 80px 0;
+        }
+
+        .about-content {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+
+        .about-text {
+            flex: 1;
+        }
+
+        .about-text h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 36px;
+        }
+
+        .about-text p {
+            margin-bottom: 15px;
+            line-height: 1.8;
+        }
+
+        .about-image {
+            flex: 1;
+            text-align: center;
+        }
+
+        .about-image img {
+            width: 100%;
+            max-width: 500px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        /* Контакты */
+        .contact {
+            padding: 80px 0;
+            background-color: white;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .contact-info {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .contact-info h3 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        .contact-info p {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .contact-info i {
+            margin-right: 10px;
+            color: #3498db;
+            width: 20px;
+            text-align: center;
+        }
+
+        .contact-form {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .contact-form h3 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #2c3e50;
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            border-color: #3498db;
+            outline: none;
+        }
+
+        .form-group textarea {
+            height: 150px;
+            resize: vertical;
+        }
+
+        /* Подвал */
+        footer {
+            background-color: #2c3e50;
+            color: white;
+            padding: 40px 0 20px;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        .footer-column {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .footer-column h3 {
+            margin-bottom: 20px;
+            font-size: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-column h3:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background-color: #3498db;
+        }
+
+        .footer-column p {
+            margin-bottom: 15px;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: #ecf0f1;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: #3498db;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            color: white;
+            transition: all 0.3s;
+        }
+
+        .social-links a:hover {
+            background-color: #3498db;
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 14px;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            nav ul {
+                margin-top: 20px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            nav ul li {
+                margin: 5px 10px;
+            }
+
+            .hero {
+                padding: 100px 0;
+            }
+
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .hero p {
+                font-size: 18px;
+            }
+
+            .about-content {
+                flex-direction: column;
+            }
+
+            .about-image {
+                margin-top: 30px;
+            }
+
+            .footer-content {
+                flex-direction: column;
+            }
+
+            .btn {
+                display: block;
+                margin: 10px auto;
+                max-width: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Шапка -->
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <img src="https://www.nahamtech.net/wp-content/uploads/2021/03/pos-system-png-1-400x400.png" alt="Логотип ККТ">
+                <div>Центр поддержки <span>ККТ</span></div>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#services">Услуги</a></li>
+                    <li><a href="#about">О нас</a></li>
+                    <li><a href="#contact">Контакты</a></li>
+                    <li><a href="#"><i class="fas fa-phone-alt"></i> +7 (123) 456-78-90</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Герой-секция -->
+    <section class="hero">
+        <div class="container">
+            <h1>Профессиональная поддержка контрольно-кассовой техники</h1>
+            <p>Полный спектр услуг по обслуживанию, ремонту и сопровождению кассовых аппаратов для вашего бизнеса</p>
+            <div>
+                <a href="#contact" class="btn">Связаться с нами</a>
+                <a href="#services" class="btn btn-secondary">Наши услуги</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Услуги -->
+    <section class="services" id="services">
+        <div class="container">
+            <div class="section-title">
+                <h2>Наши услуги</h2>
+            </div>
+            <div class="services-grid">
+                <div class="service-card">
+                    <i class="fas fa-tools"></i>
+                    <h3>Техническое обслуживание</h3>
+                    <p>Регулярное профилактическое обслуживание кассовой техники для бесперебойной работы</p>
+                    <a href="#contact" class="btn">Заказать</a>
+                </div>
+                <div class="service-card">
+                    <i class="fas fa-wrench"></i>
+                    <h3>Ремонт ККТ</h3>
+                    <p>Квалифицированный ремонт любых неисправностей кассовых аппаратов</p>
+                    <a href="#contact" class="btn">Заказать</a>
+                </div>
+                <div class="service-card">
+                    <i class="fas fa-cog"></i>
+                    <h3>Настройка и регистрация</h3>
+                    <p>Помощь в настройке, регистрации в ФНС и обновлении программного обеспечения</p>
+                    <a href="#contact" class="btn">Заказать</a>
+                </div>
+                <div class="service-card">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                    <h3>Обучение персонала</h3>
+                    <p>Проведение обучения для ваших сотрудников по работе с ККТ</p>
+                    <a href="#contact" class="btn">Заказать</a>
+                </div>
+                <div class="service-card">
+                    <i class="fas fa-microchip"></i>
+                    <h3>Фискальные накопители</h3>
+                    <p>Продажа и замена фискальных накопителей для вашей кассовой техники</p>
+                    <a href="#contact" class="btn">Заказать</a>
+                </div>
+                <div class="service-card">
+                    <i class="fas fa-headset"></i>
+                    <h3>Консультации</h3>
+                    <p>Профессиональные консультации по вопросам применения ККТ согласно законодательству</p>
+                    <a href="#contact" class="btn">Заказать</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- О нас -->
+    <section class="about" id="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2>О нашем центре</h2>
+                    <p>Мы - команда профессионалов с многолетним опытом работы в сфере обслуживания контрольно-кассовой техники. Наши специалисты обладают всеми необходимыми сертификатами и регулярно повышают квалификацию.</p>
+                    <p>Наша миссия - обеспечить бесперебойную работу вашей кассовой техники, чтобы вы могли сосредоточиться на развитии своего бизнеса.</p>
+                    <p>Мы работаем с различными моделями ККТ и фискальных регистраторов, включая Атол, Штрих-М, Меркурий, Касби и другие.</p>
+                    <ul style="margin-top: 20px; list-style-type: none;">
+                        <li><i class="fas fa-check" style="color: #3498db; margin-right: 10px;"></i> Более 10 лет на рынке</li>
+                        <li><i class="fas fa-check" style="color: #3498db; margin-right: 10px;"></i> Сертифицированные специалисты</li>
+                        <li><i class="fas fa-check" style="color: #3498db; margin-right: 10px;"></i> Гарантия на все работы</li>
+                    </ul>
+                </div>
+                <div class="about-image">
+                    <img src="https://64.media.tumblr.com/94f64041afd5fa0e88c9ebf976ca463c/df69929fdaacf0dc-1b/s2048x3072_c0,1508,100000,91457/1b30faf7bfd43106c9732154c9a1772f481dd3aa.png" alt="Наш центр">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Контакты -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <div class="section-title">
+                <h2>Контакты</h2>
+            </div>
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <h3>Наши контакты</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> <strong>Адрес:</strong> г. Москва, ул. Примерная, д. 123</p>
+                    <p><i class="fas fa-phone-alt"></i> <strong>Телефон:</strong> +7 (123) 456-78-90</p>
+                    <p><i class="fas fa-envelope"></i> <strong>Email:</strong> info@kkt-support.ru</p>
+                    <p><i class="fas fa-clock"></i> <strong>Режим работы:</strong> Пн-Пт: 9:00-18:00</p>
+
+                    <h3 style="margin-top: 30px;">Как добраться</h3>
+                    <p><i class="fas fa-subway"></i> <strong>Метро:</strong> Станция "Центральная", выход №5</p>
+                    <p><i class="fas fa-bus"></i> <strong>Автобусы:</strong> №12, 45, 67 до остановки "Улица Примерная"</p>
+                </div>
+                <div class="contact-form">
+                    <h3>Напишите нам</h3>
+                    <form>
+                        <div class="form-group">
+                            <label for="name">Ваше имя</label>
+                            <input type="text" id="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Ваш email</label>
+                            <input type="email" id="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Ваш телефон</label>
+                            <input type="tel" id="phone">
+                        </div>
+                        <div class="form-group">
+                            <label for="service">Интересующая услуга</label>
+                            <select id="service">
+                                <option value="">Выберите услугу</option>
+                                <option value="service1">Техническое обслуживание</option>
+                                <option value="service2">Ремонт ККТ</option>
+                                <option value="service3">Настройка и регистрация</option>
+                                <option value="service4">Обучение персонала</option>
+                                <option value="service5">Фискальные накопители</option>
+                                <option value="service6">Консультации</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Сообщение</label>
+                            <textarea id="message" required></textarea>
+                        </div>
+                        <button type="submit" class="btn">Отправить</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Подвал -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>О компании</h3>
+                    <p>Центр поддержки контрольно-кассовой техники - ваш надежный партнер в обслуживании и ремонте кассового оборудования.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-vk"></i></a>
+                        <a href="#"><i class="fab fa-telegram"></i></a>
+                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Услуги</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Техническое обслуживание</a></li>
+                        <li><a href="#">Ремонт ККТ</a></li>
+                        <li><a href="#">Настройка и регистрация</a></li>
+                        <li><a href="#">Обучение персонала</a></li>
+                        <li><a href="#">Фискальные накопители</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Контакты</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> г. Москва, ул. Примерная, д. 123</p>
+                    <p><i class="fas fa-phone-alt"></i> +7 (123) 456-78-90</p>
+                    <p><i class="fas fa-envelope"></i> info@kkt-support.ru</p>
+                </div>
+            </div>
+            <div class="copyright">
+                &copy; 2023 Центр поддержки ККТ. Все права защищены.
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
